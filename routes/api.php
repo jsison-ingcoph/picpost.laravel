@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// non-middleware routes
+// 
+
+Route::middleware('auth:api')->group(function() {
+    // resource routes
+    // 
+
+    // non-resource routes
+    // 
 });
