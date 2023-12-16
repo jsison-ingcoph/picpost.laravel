@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,11 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 // non-middleware routes
-// 
+Route::post('login', [UserController::class, 'login']);
+Route::post('register', [UserController::class, 'register']);
 
 Route::middleware('auth:api')->group(function() {
     // resource routes
-    // 
+    Route::resource('user', UserController::class);
 
     // non-resource routes
     // 
