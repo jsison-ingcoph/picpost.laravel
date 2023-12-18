@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,7 @@ Route::post('register', [UserController::class, 'register']);
 Route::middleware('auth:api')->group(function() {
     // resource routes
     Route::resource('user', UserController::class);
+    Route::resource('post', PostController::class);
 
     // non-resource routes
     // 

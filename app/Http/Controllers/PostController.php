@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -28,7 +29,22 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $validated = $request->validate([
+                'caption' => 'required',
+                'filename' => 'required',
+            ]);
+            $post = Auth::user()->posts()->create($validated);
+            return response()->json([
+                'msg' => 'Post created successfully.',
+                'post' => $post,
+            ], 201);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'msg' => 'Internal server error.',
+                'err' => $th,
+            ], 500);
+        }
     }
 
     /**
@@ -36,7 +52,22 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        try {
+            if (Auth::user()->id !== $post->user_id) {
+                return response()->json([
+                    'msg' => 'Unauthorized access to the post.',
+                ], 401);
+            }
+            return response()->json([
+                'msg' => 'Post retrieved successfully.',
+                'post' => $post,
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'msg' => 'Internal server error.',
+                'err' => $th,
+            ], 500);
+        }
     }
 
     /**
